@@ -36,26 +36,26 @@ class Item:
         self.price *= Item.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
-        file_path = os.path.join(os.path.dirname(__file__), 'items.csv')
-        dir_csv = os.path.abspath(file_path)
+    def instantiate_from_csv(cls, name_file='items.csv'):
+        file_path = os.path.join(os.path.dirname(__file__), name_file)
+        Item.dir_csv = os.path.abspath(file_path)
 
-        if not os.path.isfile(dir_csv):
+        if not os.path.isfile(Item.dir_csv):
             raise FileNotFoundError("Отсутствует файл items.csv")
 
         try:
-            with open(dir_csv, 'r') as file:
+            with open(Item.dir_csv, 'r') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     name = row.get('name')
-                    price = cls.string_to_number(row.get('price'))
-                    quantity = cls.string_to_number(row.get('quantity'))
+                    price = row.get('price')
+                    quantity = row.get('quantity')
                     if name and price is not None and quantity is not None:
-                        Item(name, price, quantity)
+                        Item(name, cls.string_to_number(price), cls.string_to_number(quantity))
                     else:
-                        raise InstantiateCSVError("Файл items.csv поврежден")
+                        raise InstantiateCSVError(f"Файл {name_file} поврежден")
         except FileNotFoundError:
-            raise InstantiateCSVError("Файл items.csv поврежден")
+            raise FileNotFoundError("Файл не обнаружен")
 
     @staticmethod
     def string_to_number(value):
