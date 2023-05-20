@@ -13,7 +13,7 @@ class Item:
         Item.all.append(self)
 
     def __repr__(self):
-        return f"Item('{self._name}', {self.price}, {self.qwt})"
+        return f"{self.__class__.__name__}('{self._name}', {self.price}, {self.qwt})"
 
     def __str__(self):
         return self._name
