@@ -1,7 +1,6 @@
 from src.item import Item
 
 
-
 class Phone(Item):
     def __init__(self, name, price, qwt, sim_cards):
         super().__init__(name, price, qwt)
@@ -20,7 +19,7 @@ class Phone(Item):
         self._number_of_sim = value
 
     def __repr__(self):
-        return f"Phone('{self._name}', {self.price}, {self.qwt}, {self._number_of_sim})"
+        return f"{self.__class__.__name__}('{self._name}', {self.price}, {self.qwt}, {self._number_of_sim})"
 
     def __add__(self, other):
         if isinstance(other, Phone):
@@ -32,4 +31,3 @@ class Phone(Item):
 
     def __radd__(self, other):
         return self.__add__(other)
-
